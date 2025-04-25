@@ -17,7 +17,7 @@ pipeline {
         stage('Run Ansible Playbook') {
             steps {
                 sh '''
-                    ansible-playbook -i host.txt install_apache.yml
+                    ansible-playbook -i host.txt install playbook.yml
                 '''
             }
         }
