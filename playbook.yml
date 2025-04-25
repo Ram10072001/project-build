@@ -1,7 +1,7 @@
 ---
-- name: Install Apache2 and deploy index.html on slave server
-  hosts: webservers
-  become: yes
+- name: Install Apache2 and deploy index.html on all servers
+  hosts: all      # This will apply to all hosts in the inventory
+  become: yes     # To run tasks with sudo privileges
   tasks:
     - name: Update apt cache
       apt:
@@ -38,5 +38,4 @@
     - name: Ensure the Apache2 service is running
       service:
         name: apache2
-        state: restarted
-
+        state: restarted          
