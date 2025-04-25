@@ -1,5 +1,5 @@
 ---
-- name: Install Apache2 on slave server
+- name: Install Apache2 and deploy index.html on slave server
   hosts: webservers
   become: yes
   tasks:
@@ -7,14 +7,36 @@
       apt:
         update_cache: yes
 
-    - name: Install apache2
+    - name: Install Apache2
       apt:
         name: apache2
         state: present
 
-    - name: Ensure apache2 is running and enabled
+    - name: Ensure apache2 is started and enabled
       service:
         name: apache2
         state: started
         enabled: yes
+
+    - name: Create index.html file
+      copy:
+        content: |
+          <html>
+            <head>
+              <title>Apache2 Deployed!</title>
+            </head>
+            <body>
+              <h1>Welcome to Apache2 on {{ ansible_hostname }}!</h1>
+              <p>Your Apache2 server is up and running!</p>
+            </body>
+          </html>
+        dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
+        mode: '0644'
+
+    - name: Ensure the Apache2 service is running
+      service:
+        name: apache2
+        state: restarted
 
