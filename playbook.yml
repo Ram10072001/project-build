@@ -1,0 +1,20 @@
+---
+- name: Install Apache2 on slave server
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install apache2
+      apt:
+        name: apache2
+        state: present
+
+    - name: Ensure apache2 is running and enabled
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
